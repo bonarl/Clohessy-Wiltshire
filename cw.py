@@ -11,9 +11,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import animation
 
-r0 = [5, 0.0, 0]
-rdot0 = [0.1, 0.3, -0.023]
-omeg = 0.0010854
+r0 = [5, 0.0, 0]                                #initial position vector
+rdot0 = [0.1, 0.3, -0.023]                      #initial velocity
+omeg = 0.0010854                                #mean motion of principal body, (can be calculated from altitude of circular orbit)
 
 def CW(r0, rdot0, omeg, t):
     x0 = r0[0]

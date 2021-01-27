@@ -97,12 +97,8 @@ ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
 
+colors = ['g', 'b', 'r']
 for frame in range(nframes01 + nframes02 + nframes03):
-  if frame < nframes01:
-    ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = 'g', s=1)
-  elif frame < nframes01 + nframes02:
-    ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = 'b', s=1)
-  else:
-    ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = 'r', s=1)
+  ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = colors[(frame > nframes01) + (frame > nframes01 + nframes02)], s=1)
 
 plt.show()

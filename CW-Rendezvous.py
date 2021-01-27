@@ -11,7 +11,7 @@ R     =  6870 + 405
 mu    =  398600.50
 omega = math.sqrt(mu/R**3)
 
-nframes01 = 1000
+nframes01 =  200
 nframes02 =  200
 nframes03 =  200
 dt        =   20
@@ -42,17 +42,17 @@ def coordAtT(r0, rdot0, omega, t):
 
 def maneuver(frames, r0, rdot0, deltav, omega):
   xs, ys, zs, ds = [], [], [], []
-  for i, vectorElem in enumerate(rdot_vec):
+  for i, vectorElem in enumerate(rdot0):
     rdot0[i] = vectorElem + deltav[i]
-  for i in range(nframes02):
+  for i in range(frames):
     t        = dt*i
-    r_vec, rdot_vec = coordAtT(r0, rdot0, omega, t)
-    xs.append(r_vec[0])
-    ys.append(r_vec[1])
-    zs.append(r_vec[2])
-    ds.append(np.linalg.norm(r_vec))
-    v = math.sqrt(np.linalg.norm(rdot_vec))
-  return r_vec, rdot_vec, xs, ys, zs, ds, v
+    r, rdot  = coordAtT(r0, rdot0, omega, t)
+    xs.append(r[0])
+    ys.append(r[1])
+    zs.append(r[2])
+    ds.append(np.linalg.norm(r))
+    v = math.sqrt(np.linalg.norm(rdot))
+  return r, rdot, xs, ys, zs, ds, v
   
 xs = []
 ys = []
@@ -60,7 +60,7 @@ zs = []
 ds = []
 
 # Maneuver 1
-out = maneuver(nframes01, r_vec, rdot_vec, [ 0.00,  0.00, 0.00], omega)
+out = maneuver(nframes01, r0,    rdot0,    [ 0.00,  0.00, 0.00], omega)
 r_vec    = out[0]
 rdot_vec = out[1]
 xs.extend (out[2])
@@ -97,10 +97,10 @@ ax.set_xlabel('x')
 ax.set_ylabel('y')
 ax.set_zlabel('z')
 
-for frame in range(nframes03+nframes02+stindex):
-  if frame < stindex:
+for frame in range(nframes01 + nframes02 + nframes03):
+  if frame < nframes01:
     ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = 'g', s=1)
-  elif frame < nframes02 + stindex:
+  elif frame < nframes01 + nframes02:
     ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = 'b', s=1)
   else:
     ax.scatter(xs[frame], ys[frame], zs[frame], marker = '.', color = 'r', s=1)

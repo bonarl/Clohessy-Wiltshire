@@ -1,5 +1,3 @@
-### https://github.com/bonarl/Clohessy-Wiltshire/blob/master/cw.py
-
 import math
 import matplotlib.pyplot as plt
 from matplotlib import animation

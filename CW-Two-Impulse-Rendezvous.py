@@ -6,25 +6,26 @@ from mpl_toolkits.mplot3d import Axes3D
 
 plt.style.use('fivethirtyeight')
 
-r0    = [100.0, 50.0, 25.0]
-rdot0 = [ 10.0, 15.0, 20.0]
+r0   = [100.0, 50.0, 25.0]
+rdot0 = [  1.0,  0.0,  0.0]
 R     =  6870 + 405
 mu    =  398600.50
 omega = math.sqrt(mu/R**3)
 
-nframes01 = 200
-nframes02 = 200
-nframes03 = 200
-nframes   = 200
-dt        =  20
+nframes   = 2000
+dt        =    2
 
 def transformMatrix(omega, t):
-  A = [[         4.0 - 3.0*math.cos(omega*t), 0.0,                       0.0,           math.sin(omega*t)/omega,   2.0*(1.0-math.cos(omega*t))/omega,                     0.0],
-       [ 6.0*math.sin(omega*t) - 6.0*omega*t, 1.0,                       0.0, 2.0*(math.cos(omega*t)-1.0)/omega, 4.0*math.sin(omega*t)/omega - 3.0*t,                     0.0],
-       [                                 0.0, 0.0,         math.cos(omega*t),                               0.0,                                 0.0, math.sin(omega*t)/omega],
-       [         3.0*math.sin(omega*t)*omega, 0.0,                       0.0,                 math.cos(omega*t),               2.0*math.sin(omega*t),                     0.0],
-       [     6*omega*(math.cos(omega*t)-1.0), 0.0,                       0.0,           - 2.0*math.sin(omega*t),         4.0*math.cos(omega*t) - 3.0,                     0.0],
-       [                                 0.0, 0.0, - omega*math.sin(omega*t),                               0.0,                                 0.0,       math.cos(omega*t)]]
+  omegaT = omega*t
+  cosOT  = math.cos(omegaT)
+  sinOT  = math.sin(omegaT)
+  
+  A = [[        4.0 - 3.0*cosOT, 0.0,          0.0,           sinOT/omega,   2.0*(1.0-cosOT)/omega,         0.0],
+       [ 6.0*sinOT - 6.0*omegaT, 1.0,          0.0, 2.0*(cosOT-1.0)/omega, 4.0*sinOT/omega - 3.0*t,         0.0],
+       [                    0.0, 0.0,        cosOT,                   0.0,                     0.0, sinOT/omega],
+       [        3.0*sinOT*omega, 0.0,          0.0,                 cosOT,               2.0*sinOT,         0.0],
+       [    6*omega*(cosOT-1.0), 0.0,          0.0,           - 2.0*sinOT,         4.0*cosOT - 3.0,         0.0],
+       [                    0.0, 0.0, -omega*sinOT,                   0.0,                     0.0,       cosOT]]
   return A
 
 def coordAtT(r0, rdot0, omega, t):
@@ -72,6 +73,7 @@ phi_r      = transformMatrix(omega, T)[0:3]
 phi_r_r    = [arr[0:3] for arr in phi_r]
 phi_r_rdot = [arr[3:6] for arr in phi_r]
 deltav     = np.dot(np.linalg.inv(phi_r_rdot), (final_pos - np.dot(phi_r_r, r0))) - rdot0
+print(deltav)
 out = maneuver(nframes, r0, rdot0, deltav, omega)
 r_vec      = out[0]
 rdot_vec   = out[1]

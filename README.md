@@ -1,2 +1,4 @@
 # Clohessy-Wiltshire
-Python program for solving the Clohessy-Wiltshire equations and plotting a 3D animation of the solution for a given starting position/ velocity vector and mean motion of the primary orbiting body. The Clohessy-Wiltshire equations describe a simplified model of orbital relative motion, in which the target is in a circular orbit, and the chaser spacecraft is in an elliptical or circular orbit. This model gives a first-order approximation of the chaser's motion in a target-centered coordinate system. It is very useful in planning rendezvous of the chaser with the target
+
+A Python implementation of the Clohessy-Wiltshire equations with a 3D animation of the solution given starting position and velocity and mean motion of the primary orbiting body.  
+The Clohessy-Wiltshire equations describe a simplified model of orbital relative motion in which the target is in a circular orbit and the chaser spacecraft is in an elliptical or circular orbit. This model gives a first-order approximation of the motion of the chaser in a target-centered coordinate system. It is very useful in planning the rendezvous of the chaser with the target.
